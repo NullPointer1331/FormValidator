@@ -2,17 +2,31 @@ function $(element:string):any{
     return document.getElementById(element); 
 }
 window.onload = function() {
-    let formbtn = $("form > button");
-    formbtn.onclick = main;
+    let submitbtn:HTMLElement = $("submit");
+    submitbtn.onclick = main;
+    let resetbtn:HTMLElement = $("reset");
+    resetbtn.onclick = clearAllErrors;
 }
 
 function main():void {
-    let validForm:boolean = (isTextPresent("first_name", "First name is required") &&
-    isTextPresent("last_name", "Last name is required") &&
-    isEmailValid() &&
-    isPasswordValid() &&
-    isPhoneNumberValid());
+    let validForm:boolean = true; 
+    if(!isTextPresent("first_name", "First name is required")) {
+        validForm = false;
+    }
+    if(!isTextPresent("last_name", "Last name is required")) {
+        validForm = false;
+    }
+    if(!isEmailValid()) {
+        validForm = false;
+    }
+    if(!isPasswordValid()) {
+        validForm = false;
+    }
+    if(!isPhoneNumberValid()) {
+        validForm = false;
+    }
     if (validForm) {
+        $("member_form").submit();
     }
 }
 
@@ -24,11 +38,12 @@ function main():void {
 function isTextPresent(id:string, errMsg:string):boolean {
     let txtBox:HTMLInputElement = $(id);
     let txtBoxValue:string = txtBox.value;
+    let errSpan:HTMLElement = <HTMLElement>txtBox.nextElementSibling;
     if (txtBoxValue == "") {
-        let errSpan:HTMLElement = <HTMLElement>txtBox.nextElementSibling;
         errSpan.innerText = errMsg;
         return false;
     }
+    errSpan.innerText = "*";
     return true;
 }
 
@@ -38,11 +53,12 @@ function isEmailValid():boolean {
     }
     let emailBox:HTMLInputElement = $("email");
     let email:string = emailBox.value;
+    let errSpan:HTMLElement = <HTMLElement>emailBox.nextElementSibling;
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        let errSpan:HTMLElement = <HTMLElement>emailBox.nextElementSibling;
         errSpan.innerText = "Invalid email";
         return false;
     }
+    errSpan.innerText = "*";
     return true;
 }
 
@@ -52,18 +68,18 @@ function isPasswordValid():boolean {
     }
     let passwordBox:HTMLInputElement = $("password");
     let password:string = passwordBox.value;
+    let errSpan:HTMLElement = <HTMLElement>passwordBox.nextElementSibling;
     if (password.length < 6) {
-        let errSpan:HTMLElement = <HTMLElement>passwordBox.nextElementSibling;
         errSpan.innerText = "Password must be at least 6 characters";
         return false;
     }
     let passwordBox2:HTMLInputElement = $("verify");
     let password2:string = passwordBox2.value;
     if (password != password2) {
-        let errSpan:HTMLElement = <HTMLElement>passwordBox.nextElementSibling;
         errSpan.innerText = "Passwords don't match";
         return false;
     }
+    errSpan.innerText = "*";
     return true;
 }
 
@@ -73,10 +89,19 @@ function isPhoneNumberValid():boolean {
     }
     let phoneBox:HTMLInputElement = $("phone");
     let phone:string = phoneBox.value;
+    let errSpan:HTMLElement = <HTMLElement>phoneBox.nextElementSibling;
     if (!/^\d{3}-\d{3}-\d{4}$/.test(phone)) {
-        let errSpan:HTMLElement = <HTMLElement>phoneBox.nextElementSibling;
         errSpan.innerText = "Invalid phone number";
         return false;
     }
+    errSpan.innerText = "*";
     return true;
+}
+
+function clearAllErrors():void {
+    let allSpans = document.querySelectorAll("span");
+    for (let i = 0; i < allSpans.length; i++) {
+        let currSpan = allSpans[i];
+        currSpan.innerText = "*";
+    }
 }
