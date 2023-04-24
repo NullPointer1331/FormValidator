@@ -2,8 +2,8 @@ function $(element) {
     return document.getElementById(element);
 }
 window.onload = function () {
-    var submitbtn = $("submit");
-    submitbtn.onclick = main;
+    var validatebtn = $("validate");
+    validatebtn.onclick = main;
     var resetbtn = $("reset");
     resetbtn.onclick = clearAllErrors;
 };
@@ -25,7 +25,10 @@ function main() {
         validForm = false;
     }
     if (validForm) {
-        $("member_form").submit();
+        $("submit").disabled = false;
+    }
+    else {
+        $("submit").disabled = true;
     }
 }
 function isTextPresent(id, errMsg) {

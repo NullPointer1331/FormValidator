@@ -2,8 +2,8 @@ function $(element:string):any{
     return document.getElementById(element); 
 }
 window.onload = function() {
-    let submitbtn:HTMLElement = $("submit");
-    submitbtn.onclick = main;
+    let validatebtn:HTMLElement = $("validate");
+    validatebtn.onclick = main;
     let resetbtn:HTMLElement = $("reset");
     resetbtn.onclick = clearAllErrors;
 }
@@ -26,7 +26,10 @@ function main():void {
         validForm = false;
     }
     if (validForm) {
-        $("member_form").submit();
+        $("submit").disabled = false;
+    }
+    else {
+        $("submit").disabled = true;
     }
 }
 
