@@ -1,3 +1,11 @@
+class Person {
+    firstName:string;
+    lastName:string;
+    email:string;
+    phoneNumber:string;
+    password:string;
+}
+
 function $(element:string):any{
     return document.getElementById(element); 
 }
@@ -27,10 +35,21 @@ function main():void {
     }
     if (validForm) {
         $("submit").disabled = false;
+        let newPerson:Person = getPerson();
     }
     else {
         $("submit").disabled = true;
     }
+}
+
+function getPerson():Person {
+    let newPerson:Person = new Person();
+    newPerson.firstName = $("first_name").value;
+    newPerson.lastName = $("last_name").value;
+    newPerson.email = $("email").value;
+    newPerson.phoneNumber = $("phone").value;
+    newPerson.password = $("password").value;
+    return newPerson;
 }
 
 /**
@@ -50,6 +69,9 @@ function isTextPresent(id:string, errMsg:string):boolean {
     return true;
 }
 
+/**
+ * @returns True if the email is valid, false otherwise
+ */
 function isEmailValid():boolean {
     if (!isTextPresent("email", "Email is required")) {
         return false;
@@ -65,6 +87,10 @@ function isEmailValid():boolean {
     return true;
 }
 
+/**
+ * 
+ * @returns True if the password is valid, false otherwise
+ */
 function isPasswordValid():boolean {
     if(!isTextPresent("password", "Password is required")) {
         return false;
@@ -86,6 +112,10 @@ function isPasswordValid():boolean {
     return true;
 }
 
+/**
+ * 
+ * @returns True if the phone number is valid, false otherwise
+ */
 function isPhoneNumberValid():boolean {
     if (!isTextPresent("phone", "Phone number is required")) {
         return false;
@@ -101,6 +131,9 @@ function isPhoneNumberValid():boolean {
     return true;
 }
 
+/**
+ * Resets all spans back to the default text
+ */
 function clearAllErrors():void {
     let allSpans = document.querySelectorAll("span");
     for (let i = 0; i < allSpans.length; i++) {

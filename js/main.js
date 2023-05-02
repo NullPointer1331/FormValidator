@@ -1,3 +1,8 @@
+var Person = (function () {
+    function Person() {
+    }
+    return Person;
+}());
 function $(element) {
     return document.getElementById(element);
 }
@@ -26,10 +31,20 @@ function main() {
     }
     if (validForm) {
         $("submit").disabled = false;
+        var newPerson = getPerson();
     }
     else {
         $("submit").disabled = true;
     }
+}
+function getPerson() {
+    var newPerson = new Person();
+    newPerson.firstName = $("first_name").value;
+    newPerson.lastName = $("last_name").value;
+    newPerson.email = $("email").value;
+    newPerson.phoneNumber = $("phone").value;
+    newPerson.password = $("password").value;
+    return newPerson;
 }
 function isTextPresent(id, errMsg) {
     var txtBox = $(id);
