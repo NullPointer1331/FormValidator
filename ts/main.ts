@@ -10,8 +10,8 @@ function $(element:string):any{
     return document.getElementById(element); 
 }
 window.onload = function() {
-    let validatebtn:HTMLElement = $("validate");
-    validatebtn.onclick = main;
+    let submitbtn:HTMLElement = $("submit");
+    submitbtn.onclick = main;
     let resetbtn:HTMLElement = $("reset");
     resetbtn.onclick = clearAllErrors;
 }
@@ -34,14 +34,28 @@ function main():void {
         validForm = false;
     }
     if (validForm) {
-        $("submit").disabled = false;
         let newPerson:Person = getPerson();
-    }
-    else {
-        $("submit").disabled = true;
+        displayPerson(newPerson);
     }
 }
 
+/**
+ * Displays the given Person object on the web page
+ * @param person The Person object to display
+*/
+function displayPerson(person:Person):void {
+    let displayDiv = $("display");
+    let personHeading = document.createElement("h2");
+    personHeading.innerText = person.firstName + " " + person.lastName;
+    displayDiv.appendChild(personHeading);
+    let personInfo = document.createElement("p");
+    personInfo.innerHTML = "Email: " + person.email + "<br>Phone Number: " + person.phoneNumber + "<br>Password: " + person.password;
+    displayDiv.appendChild(personInfo);
+}
+
+/**
+ * @returns A Person object created from the values of the form
+ */
 function getPerson():Person {
     let newPerson:Person = new Person();
     newPerson.firstName = $("first_name").value;
@@ -88,7 +102,6 @@ function isEmailValid():boolean {
 }
 
 /**
- * 
  * @returns True if the password is valid, false otherwise
  */
 function isPasswordValid():boolean {
@@ -113,7 +126,6 @@ function isPasswordValid():boolean {
 }
 
 /**
- * 
  * @returns True if the phone number is valid, false otherwise
  */
 function isPhoneNumberValid():boolean {
@@ -123,7 +135,7 @@ function isPhoneNumberValid():boolean {
     let phoneBox:HTMLInputElement = $("phone");
     let phone:string = phoneBox.value;
     let errSpan:HTMLElement = <HTMLElement>phoneBox.nextElementSibling;
-    if (!/^\d{3}-\d{3}-\d{4}$/.test(phone)) {
+    if (!/^\d{3}-\d{3}-\d{4}$/.test(phone) && !/^\d{10}$/.test(phone)) {
         errSpan.innerText = "Invalid phone number";
         return false;
     }

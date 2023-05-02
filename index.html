@@ -27,12 +27,6 @@
 		</fieldset>
 		<fieldset>
 			<legend>Member Information</legend>
-			<!--<label>Membership type:</label>
-			<input type="radio" name="type" id="individual" value="individual" checked>Individual
-			<input type="radio" name="type" id="corporate" value="corporate">Corporate<br>
-			<label for="company_name">Company Name:</label>
-			<input type="text" id="company_name" name="company_name" disabled> 
-			<span></span><br>-->
 			<label for="first_name">First Name:</label>
 			<input type="text" id="first_name" name="first_name">
 			<span>*</span><br>
@@ -48,11 +42,12 @@
 		<fieldset id="buttons">
 			<legend>Submit Your Membership</legend>
 			<label>&nbsp;</label>
-			<input type="button" id="validate" name="validate" value="Validate">
-			<input type="submit" id="submit" name="submit" value="Submit" disabled>
+			<input type="button" id="submit" name="submit" value="Submit">
 			<input type="reset" id="reset" name="reset" value="Reset"><br>
 		</fieldset>
 	</form>
+	<div id="display">
+	</div>
 </main>
 </body>
 </html>

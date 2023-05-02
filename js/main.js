@@ -7,8 +7,8 @@ function $(element) {
     return document.getElementById(element);
 }
 window.onload = function () {
-    var validatebtn = $("validate");
-    validatebtn.onclick = main;
+    var submitbtn = $("submit");
+    submitbtn.onclick = main;
     var resetbtn = $("reset");
     resetbtn.onclick = clearAllErrors;
 };
@@ -30,12 +30,18 @@ function main() {
         validForm = false;
     }
     if (validForm) {
-        $("submit").disabled = false;
         var newPerson = getPerson();
+        displayPerson(newPerson);
     }
-    else {
-        $("submit").disabled = true;
-    }
+}
+function displayPerson(person) {
+    var displayDiv = $("display");
+    var personHeading = document.createElement("h2");
+    personHeading.innerText = person.firstName + " " + person.lastName;
+    displayDiv.appendChild(personHeading);
+    var personInfo = document.createElement("p");
+    personInfo.innerHTML = "Email: " + person.email + "<br>Phone Number: " + person.phoneNumber + "<br>Password: " + person.password;
+    displayDiv.appendChild(personInfo);
 }
 function getPerson() {
     var newPerson = new Person();
@@ -98,7 +104,7 @@ function isPhoneNumberValid() {
     var phoneBox = $("phone");
     var phone = phoneBox.value;
     var errSpan = phoneBox.nextElementSibling;
-    if (!/^\d{3}-\d{3}-\d{4}$/.test(phone)) {
+    if (!/^\d{3}-\d{3}-\d{4}$/.test(phone) && !/^\d{10}$/.test(phone)) {
         errSpan.innerText = "Invalid phone number";
         return false;
     }
